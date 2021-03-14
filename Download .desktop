@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Download 
+Comment=
+Exec=/home/brayan/Documentos/Cursos/python/YT_download/dist/main/main
+Icon=youtube
+Path=
+Terminal=true
+StartupNotify=false
