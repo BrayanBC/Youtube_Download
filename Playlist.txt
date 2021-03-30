@@ -1,0 +1,7 @@
+	EXEMPLOS:
+A = https://www.youtube.com/playlist?list=PLq8H8odPq6rtVcXM3qQiioEvGyob49Gqg 
+ar = https://www.youtube.com/playlist?list=PLq8H8odPq6rtiTHC7WXMBwGnvAFYzZ1-N
+L = https://www.youtube.com/playlist?list=PLq8H8odPq6rsYKBGZVfclp3va0O0mPQo9
+Z = https://www.youtube.com/playlist?list=PLq8H8odPq6rvaiPvhmLB0ezITF2i_iuD1
+C = https://www.youtube.com/playlist?list=PLq8H8odPq6rvBVqNqp7sNAA0IftOovZCr
+k = https://www.youtube.com/playlist?list=PLq8H8odPq6rttTjcYKbrnXm243qrzACdw
