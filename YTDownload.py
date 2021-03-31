@@ -1,20 +1,13 @@
 ''' Programa construído em um linux ubuntu'''
 
 from pytube import YouTube, helpers, Playlist
-<<<<<<< HEAD
-import subprocess, requests, re
-
-Exemplos = open('/home/brayan/Documentos/Cursos/python/Download/Playlist.txt', 'r')
-t = Exemplos.read
-=======
-import subprocess, requests, re, os
+import subprocess, requests, os, re
 
 usuario = subprocess.getoutput(["whoami"])
 os.chdir(f'/home/{usuario}/Música')
 
 #exemplos de playlist
 A = 'https://www.youtube.com/playlist?list=PLq8H8odPq6rtVcXM3qQiioEvGyob49Gqg'; ar = 'https://www.youtube.com/playlist?list=PLq8H8odPq6rtiTHC7WXMBwGnvAFYzZ1-N'; L = 'https://www.youtube.com/playlist?list=PLq8H8odPq6rsYKBGZVfclp3va0O0mPQo9'; Z = 'https://www.youtube.com/playlist?list=PLq8H8odPq6rvaiPvhmLB0ezITF2i_iuD1'; C = 'https://www.youtube.com/playlist?list=PLq8H8odPq6rvBVqNqp7sNAA0IftOovZCr'
->>>>>>> e773465d3fc03f337ae49f42d766f1cb693a1330
 
 #cores
 BK = "\033[30m"; R = "\033[31m"; G = "\033[32m"; Y = "\033[33m"; B = "\033[34m"; L = "\033[35m"; C = "\033[36m"; W = "\033[0;0m"
@@ -32,7 +25,7 @@ def video(link):
 	video = YouTube(link)
 	filename = (helpers.safe_filename(video.title)).replace("  " or "   ", " - ")
 	while True:
-		seletor = input(f"Você deseja baixar o video {R}{filename}{W}? {C}[S][N]{W}").upper()
+		seletor = input(f"Você deseja baixar o video {R}{filename}{W}? {C}[S][N]{W} ").upper()
 		if seletor == "N":
 			exit
 			break
@@ -51,7 +44,7 @@ def audio(link):
 	audio = YouTube(link)
 	filename = (helpers.safe_filename(audio.title)).replace("  " or "   ", " - ")
 	while True:
-		seletor = input(f"Você deseja baixar a música {R}{filename}{W}? {C}[S][N]{W}").upper()
+		seletor = input(f"Você deseja baixar a música {R}{filename}{W}? {C}[S][N]{W} ").upper()
 		if seletor == "N":
 			exit
 			break
@@ -136,11 +129,7 @@ def playlist_audio(link):
 				continue
 			if modo_playlist == "T":
 				print(f"{G}Ok, irei baixar todas as músicas!{W}")
-<<<<<<< HEAD
-		print(f'Baixando a música {C}{filename}{W}...')
-=======
 		print(f'Baixando a música {C}{filename}{W} ...')
->>>>>>> e773465d3fc03f337ae49f42d766f1cb693a1330
 		audio = audio.streams.filter(only_audio=True)[0]
 		audio.download(output_path=path, filename="\'"+filename+"\'")
 		codec_mp3(path, filename)
@@ -153,46 +142,30 @@ while True:
 		while True:
 			tipo = input(f"Digite {C}[A]{W} para somente um audio ou {C}[P]{W} para playlist: ").upper()
 			if tipo == "A":
-<<<<<<< HEAD
 				print("Digite a URL da música:")
-=======
-				print("Digite a URL do link:")
->>>>>>> e773465d3fc03f337ae49f42d766f1cb693a1330
 				try:
 					audio(input(">>> "))
 					break
 				except:
 					print(f"{R}Talvez você tenha digitado errado {W}")
 			if tipo == "P":
-<<<<<<< HEAD
-				print(f'Digite a URL da playlist:\n {Exemplos.read()} ')
-=======
-				print(f'Digite a URL da playlist:\nExemplos:\n{ExemplosP.read()}')
->>>>>>> e773465d3fc03f337ae49f42d766f1cb693a1330
+				print(f'Digite a URL da playlist: ')
 				playlist_audio(input(">>> "))
 				break
 	if modo_arquivo == "V":
 		while True:
 			tipo = input(f"Digite {C}[V]{W} para somente um vídeo ou {C}[P]{W} para playlist: ").upper()
 			if tipo == "V":
-<<<<<<< HEAD
 				print("Digite a URL do video:")
-=======
-				print("Digite a URL do link:")
->>>>>>> e773465d3fc03f337ae49f42d766f1cb693a1330
 				try:
 					video(input(">>>"))
 					break
 				except:
 					print(f"{R}Talvez você tenha digitado errado {W}")
 			if tipo == "P":
-<<<<<<< HEAD
-				print(f'Digite a URL da playlist:\n {Exemplos.read()}')
-				playlist_video(input(">>> "))
-				break
-pyth
-=======
-				print(f'Digite a URL da playlist:\nExemplos:\n{ExemplosP.read()}')
-				playlist_video(input(">>> "))
-				break
->>>>>>> e773465d3fc03f337ae49f42d766f1cb693a1330
+				try:
+					print(f'Digite a URL da playlist: ')
+					playlist_video(input(">>> "))
+					break
+				except: 
+					print(f"{R}Talvez você tenha digitado errado {W}")
