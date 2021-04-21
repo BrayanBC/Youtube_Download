@@ -6,8 +6,11 @@ import subprocess, requests, os, re
 usuario = subprocess.getoutput(["whoami"])
 os.chdir(f'/home/{usuario}/Música')
 
-#exemplos de playlist
-A = 'https://www.youtube.com/playlist?list=PLq8H8odPq6rtVcXM3qQiioEvGyob49Gqg'; ar = 'https://www.youtube.com/playlist?list=PLq8H8odPq6rtiTHC7WXMBwGnvAFYzZ1-N'; L = 'https://www.youtube.com/playlist?list=PLq8H8odPq6rsYKBGZVfclp3va0O0mPQo9'; Z = 'https://www.youtube.com/playlist?list=PLq8H8odPq6rvaiPvhmLB0ezITF2i_iuD1'; C = 'https://www.youtube.com/playlist?list=PLq8H8odPq6rvBVqNqp7sNAA0IftOovZCr'
+try:
+	ExampleM = open("/home/brayan/Documentos/Cursos/python/Youtube_Download/Playlist.txt", "r")
+	ExampleV = open("/home/brayan/Documentos/Cursos/python/Youtube_Download/Videos.txt", "r")
+except:
+	print(f"Bem Vindo {usuario}")
 
 #cores
 BK = "\033[30m"; R = "\033[31m"; G = "\033[32m"; Y = "\033[33m"; B = "\033[34m"; L = "\033[35m"; C = "\033[36m"; W = "\033[0;0m"
@@ -27,7 +30,6 @@ def video(link):
 	while True:
 		seletor = input(f"Você deseja baixar o video {R}{filename}{W}? {C}[S][N]{W} ").upper()
 		if seletor == "N":
-			exit
 			break
 		if seletor == "S":
 			pastas = subprocess.getoutput(["ls"]).split()
@@ -46,7 +48,6 @@ def audio(link):
 	while True:
 		seletor = input(f"Você deseja baixar a música {R}{filename}{W}? {C}[S][N]{W} ").upper()
 		if seletor == "N":
-			exit
 			break
 		if seletor == "S":
 			audio = audio.streams.filter(only_audio=True)[0]
@@ -56,6 +57,7 @@ def audio(link):
 			audio.download(output_path=path, filename="\'"+filename+"\'")
 			print('Baixando a música:', filename)
 			codec_mp3(path, filename)
+			break
 	
 
 #se a playlist tivver mais de 100 url	
@@ -97,7 +99,7 @@ def playlist_video(link):
 			if selecao == "N":
 				continue
 		if modo_playlist == "T":
-			print(f"{G}Ok, irei baixar todas as músicas!{W}")
+			print(f"{G}Ok, irei baixar todos os vídeos!{W}")
 		print(f'Baixando o vídeo {C}{filename}{W} ...')
 		video = video.streams.get_highest_resolution()
 		video.download(output_path=path)
@@ -149,7 +151,7 @@ while True:
 				except:
 					print(f"{R}Talvez você tenha digitado errado {W}")
 			if tipo == "P":
-				print(f'Digite a URL da playlist: ')
+				print(f'Digite a URL da playlist: \n Examples \n {ExampleM.read()}')
 				playlist_audio(input(">>> "))
 				break
 	if modo_arquivo == "V":
@@ -164,7 +166,7 @@ while True:
 					print(f"{R}Talvez você tenha digitado errado {W}")
 			if tipo == "P":
 				try:
-					print(f'Digite a URL da playlist: ')
+					print(f'Digite a URL da playlist: \n Examples \n {ExampleV.read()}')
 					playlist_video(input(">>> "))
 					break
 				except: 
