@@ -60,27 +60,11 @@ def audio(link):
 			break
 	
 
-#se a playlist tivver mais de 100 url	
-def erro_playlist(url, modo_arquivo):
-	link = requests.get(url)
-	url = re.findall(r'(\/watch\?v\=.{56})', link.text)
-	for i in url:
-		try:
-			if modo_arquivo == "M":
-				audio(f"www.youtube.com{i}")
-			if modo_arquivo == "V":
-				video(f"www.youtube.com{i}")
-		except:
-			print(f"{R}Talvez você tenha digitado errado {W}")
-	
-	
 #função para baixar vários vídeos de uma playlist
 def playlist_video(link):
 	playlist = Playlist(link)
 	n = len(playlist.video_urls)
 	print(f"A playlist tem {n} videos!")
-	if n > 99:
-		erro_playlist(link, 'V')
 	while True:
 		modo_playlist = input(f"Você deseja selecionar ou baixar todos os vídeos? {C}[S][T]{W} ").upper()
 		if modo_playlist == "S" or "T":
@@ -110,8 +94,6 @@ def playlist_audio(link):
 	playlist = Playlist(link)
 	n = len(playlist.video_urls)
 	print(f"A playlist tem {n} músicas!")
-	if n > 99:
-		erro_playlist(link, 'M')
 	while True:
 		modo_playlist = input(f"Você deseja selecionar ou baixar todas as músicas? \033[36m[S][T]{W} ").upper()
 		if modo_playlist == "S" or "T":
