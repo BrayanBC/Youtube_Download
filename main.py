@@ -1,20 +1,25 @@
-''' Programa construído em um linux ubuntu'''
+''' Programa construído em um linux '''
 
-from pytube import YouTube, helpers, Playlist
+from pytube import YouTube, Playlist
 import subprocess, os 
-
+from safe_filename import mod
 
 #função para codificar so áudios de mp4 para mp3
 def codec_mp3(p, f):
     print(f"{B}Codificando para MP3{W}")
-    subprocess.call([f"ffmpeg -i \'{p}/{f}.mp4\' -codec:a libmp3lame \'{p}/{f}.mp3\'"], shell=True)
-    subprocess.call([f'rm \'{p}/{f}.mp4\'', '-Rf'], shell=True)
-
+    if p == "":
+        subprocess.call([f"ffmpeg -i {f} -codec:a libmp3lame {f}.mp3"], shell=True)
+        subprocess.call([f'rm {f}'], shell=True)
+    else:
+        os.chdir(p)
+        subprocess.call([f'ls'], shell=True)
+        subprocess.call([f"ffmpeg -i {f} -codec:a libmp3lame {f}.mp3"], shell=True)
+        subprocess.call([f'rm {f}'], shell=True)
 
 #função para baixar somente um vídeo
 def video(link):
     video = YouTube(link)
-    filename = (helpers.safe_filename(video.title)).replace("  " or "   ", " - ")
+    filename = mod(video.title)
     while True:
         seletor = input(f"Você deseja baixar o video {R}{filename}{W}? {C}[S][N]{W} ").upper()
         if seletor == "N":
@@ -22,7 +27,8 @@ def video(link):
         if seletor == "S":
             pastas = subprocess.getoutput(["ls"]).split() 
             pastas = ", ".join(pastas)
-            path = input(f"Qual a pasta dos vídeos? {C}{pastas}{W} ")
+            print(f"Qual a pasta dos vídeos? {C}{pastas}{W}")
+            path = input("")
             video = video.streams.get_highest_resolution()
             video.download(output_path=path)
             print('Baixando o vídeo:', filename)
@@ -32,7 +38,7 @@ def video(link):
 #função para baixar somente uma música
 def audio(link):
     audio = YouTube(link)
-    filename = (helpers.safe_filename(audio.title)).replace("  " or "   ", " - ")
+    filename = mod(audio.title)
     while True:
         seletor = input(f"Você deseja baixar a música {R}{filename}{W}? {C}[S][N]{W} ").upper()
         if seletor == "N":
@@ -42,7 +48,7 @@ def audio(link):
             pastas = subprocess.getoutput(["ls"]).split()
             pastas = ", ".join(pastas)
             path = input(f"Qual a pasta das músicas? {C}{pastas}{W} ")
-            audio.download(output_path=path, filename="\'"+filename+"\'")
+            audio.download(output_path=path, filename=filename)
             print('Baixando a música:', filename)
             codec_mp3(path, filename)
             break
@@ -62,7 +68,7 @@ def playlist_video(link):
     path = input(f"Qual a pasta dos vídeos? {C}{pastas}{W} ")
     for url in playlist:
         video = YouTube(url)
-        filename = (helpers.safe_filename(video.title)).replace("  " or "   ", " - ")
+        filename = mod(video.title)
         if modo_playlist == "S":
             while True:
                 selecao = input(f"Você deseja baixar o vídeo {G}{filename}{W}? {C}[S][N]{W} ").upper()
@@ -91,7 +97,7 @@ def playlist_audio(link):
     path = input(f"Qual a pasta das músicas? {C}{pastas}{W} ")
     for url in playlist:
         audio = YouTube(url)
-        filename = (helpers.safe_filename(audio.title)).replace("  " or "   ", " - ")
+        filename = mod(audio.title)
         if modo_playlist == "S":
             while True:
                 selecao = input(f"Você deseja baixar a música {R}{filename}{W}? {C}[S][N]{W} ").upper()
@@ -102,17 +108,13 @@ def playlist_audio(link):
             if modo_playlist == "T":
                 print(f"{G}Ok, irei baixar todas as músicas!{W}")
         audio = audio.streams.filter(only_audio=True)[0]
-        audio.download(output_path=path, filename="\'"+filename+"\'")
+        audio.download(output_path=path, filename = filename)
         print('Baixando a música:', filename)
+        print(path)
+        print(type(path))
         codec_mp3(path, filename)
 
 
-try:
-    ExampleM = open("/home/brayan/Documentos/Cursos/python/Youtube_Download/Playlist.txt", "r")
-    print('Bem vindo de volta Brayan!')
-    usuario = "brayan"
-except:
-    print(f"Bem Vindo!")
 
 #cores
 BK = "\033[30m"; R = "\033[31m"; G = "\033[32m"; Y = "\033[33m"; B = "\033[34m"; L = "\033[35m"; C = "\033[36m"; W = "\033[0;0m"
@@ -121,7 +123,6 @@ BK = "\033[30m"; R = "\033[31m"; G = "\033[32m"; Y = "\033[33m"; B = "\033[34m";
 while True:
     modo_arquivo = input(f"Você deseja instalar músicas {C}[M]{W} ou vídeos {C}[V]{W}? ").upper()
     if modo_arquivo == "M":
-        os.chdir(f'/home/{usuario}/Música')
         while True:
             tipo = input(f"Digite {C}[A]{W} para somente um audio ou {C}[P]{W} para playlist: ").upper()
             if tipo == "A":
@@ -141,7 +142,6 @@ while True:
                     playlist_audio(input(">>> "))
                     break
     if modo_arquivo == "V":
-        os.chdir(f'/home/{usuario}/Vídeos')
         while True:
             tipo = input(f"Digite {C}[V]{W} para somente um vídeo ou {C}[P]{W} para playlist: ").upper()
             if tipo == "V":
